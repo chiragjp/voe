@@ -1,0 +1,12 @@
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 1 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 2 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 3 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 4 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 5 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 6 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 7 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 8 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 9 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 10 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 11 -f ../dictionary/adjustments_lbxcot.csv
+Rscript plot_modality_file.R -i ../vibration_data/all_v4//LBXCOT_vibration_gather.Rdata -o ../plots/modality/ -v LBXCOT -d ../dictionary/dictionary.Rdata -a 12 -f ../dictionary/adjustments_lbxcot.csv
