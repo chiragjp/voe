@@ -3,8 +3,8 @@ The VoE is an empirical estimation of the distribution of effect sizes and p-val
 
 
 ##Chirag J Patel
-- chirag@hms.harvard.edu
-- @chiragjp
+- email: chirag@hms.harvard.edu
+- twitter: @chiragjp
 
 ## Getting Started
 - The directory 'vibration' has the main source code to conduct vibration analysis.
