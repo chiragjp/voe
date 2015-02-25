@@ -5,11 +5,6 @@ The VoE is an empirical estimation of the distribution of effect sizes and p-val
 - Chirag J Patel
 - email: chirag@hms.harvard.edu
 - web: www.chiragjpgroup.org
-- @chiragjp
-=======
-##Chirag J Patel
-- email: chirag@hms.harvard.edu
-- twitter: @chiragjp
 
 
 ## Getting Started
