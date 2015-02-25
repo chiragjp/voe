@@ -4,7 +4,7 @@
 body {
 	background-color: #FFFFFF;
     padding: 0;
-    margin: 20px;
+    margin: 50px;
 }
 
 #page {
@@ -13,9 +13,9 @@ body {
 }
 
 .thumbnail {
-float: left;
-width: 125px;
-margin: 0 1px 1px 0;
+float: right;
+width: 250px;
+margin: 0 1px 10px 0px;
 }
 
 .clearboth { clear: both; }
