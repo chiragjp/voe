@@ -1,0 +1,21 @@
+* {
+    font-family: 'Open Sans';
+}
+body {
+	background-color: #FFFFFF;
+    padding: 0;
+    margin: 20px;
+}
+
+#page {
+    margin: 0;
+    padding: 0;
+}
+
+.thumbnail {
+float: left;
+width: 125px;
+margin: 0 1px 1px 0;
+}
+
+.clearboth { clear: both; }
