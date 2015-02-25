@@ -25,7 +25,6 @@
 
 ##Contact
 - Chirag J Patel
-- chirag@hms.harvard.edu
-- twitter: @chiragjp
+- email: chirag@hms.harvard.edu
 
 
