@@ -10,8 +10,9 @@ source('./vibration.R') ## main vibration code in this file
 source('./plot_vibration.R') ## code to do plotting
 
 ### load in the data from the website
-load(url('http://stanford.edu/~cjp/voe/nhanes9904_VoE.Rdata'))
-## if the above is slow, manually download and load.
+load(url('https://github.com/chiragjp/voe/blob/gh-pages/nhanes9904_VoE.Rdata?raw=true'))
+## if the above is slow, manually download and load from:
+# https://github.com/chiragjp/voe/blob/gh-pages/nhanes9904_VoE.Rdata
 ###
 ## restrict dataset to variable of interest (serum cadmium) and adjusting variables (makes code go quickly)
 dat <- mainTab[, c('MORTSTAT', 'PERMTH_EXM', 'SES_LEVEL', 'RIDAGEYR', 'male', 'area', 'LBXBCD', 'current_past_smoking', 'any_cad', 'any_ht', 'any_diabetes', 'education', 'RIDRETH1')]
