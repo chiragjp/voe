@@ -16,6 +16,7 @@ reference:
   - title: "Vibration of Effects"
     desc: "Core VoE computation functions"
     contents:
+      - vibration
       - conductVibration
       - conductVibrationSample
       - conductVibrationForK
@@ -24,6 +25,7 @@ reference:
   - title: "Summary Statistics"
     desc: "Post-processing and summarization"
     contents:
+      - post_process
       - summary_vibration
       - summary_vibration_stratum
       - statPerK
@@ -36,5 +38,6 @@ reference:
   - title: "Plotting"
     desc: "Visualization of VoE results"
     contents:
+      - plot_vibration
       - plot_vibration_cox
       - find_adjustment_variable

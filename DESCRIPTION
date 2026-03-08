@@ -9,7 +9,7 @@ Description: Estimate the distribution of effect sizes and p-values due to
     adjustment subsets and visualizes the resulting variability in estimates
     and statistical significance.
 License: MIT + file LICENSE
-URL: https://github.com/chiragjp/voe
+URL: https://chiragjp.github.io/voe/, https://github.com/chiragjp/voe
 BugReports: https://github.com/chiragjp/voe/issues
 Depends:
     R (>= 3.5)
