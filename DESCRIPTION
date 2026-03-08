@@ -1,0 +1,26 @@
+Package: voe
+Title: Vibration of Effects
+Version: 0.1.0
+Authors@R: person("Chirag J.", "Patel", email = "chirag@hms.harvard.edu",
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8756-8525"))
+Description: Estimate the distribution of effect sizes and p-values due to
+    model specification choices. Given a base exposure-outcome model, VoE
+    systematically fits all (or a random sample of) possible covariate
+    adjustment subsets and visualizes the resulting variability in estimates
+    and statistical significance.
+License: MIT + file LICENSE
+URL: https://github.com/chiragjp/voe
+BugReports: https://github.com/chiragjp/voe/issues
+Depends:
+    R (>= 3.5)
+Imports:
+    MASS,
+    rlang,
+    survival
+Suggests:
+    ggplot2,
+    parallel,
+    RColorBrewer
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

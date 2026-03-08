@@ -1,0 +1,26 @@
+^\.Rhistory$
+^\.claude$
+^CLAUDE\.md$
+^LICENCE\.md$
+^code_old$
+^data$
+^demographics\.*
+^jce_results$
+^manuscript$
+^nhanes_vibration$
+^nhanes9904_VoE\.Rdata$
+^old$
+^out$
+^params$
+^pateljclinepivoe.*
+^plots$
+^references$
+^src$
+^summary$
+^test$
+^todo\.txt$
+^vibration$
+^vibration_data$
+^vibration_metrics$
+^visual$
+^xwas\ mortality$

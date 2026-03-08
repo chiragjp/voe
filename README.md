@@ -1,69 +1,77 @@
-# Vibration of Effects (VoE)
+# voe: Vibration of Effects
 
-The Vibration of Effects is an empirical approach to estimate the distribution of effect sizes and p-values due to model specification choices (i.e., which covariates to adjust for). Given a base exposure-outcome model, VoE systematically fits all (or a random sample of) possible covariate adjustment subsets and visualizes the resulting variability in estimates and statistical significance.
+An R package for estimating the distribution of effect sizes and p-values due to model specification choices. Given a base exposure-outcome model, VoE systematically fits all (or a random sample of) possible covariate adjustment subsets and visualizes the resulting variability in estimates and statistical significance.
 
 ## Reference
 
 Patel CJ, Burford B, Ioannidis JPA. Assessment of vibration of effects due to model specification can demonstrate the instability of observational associations. *Journal of Clinical Epidemiology*. 2015;68(9):1046-1058.
 
-## Quick Start
+## Installation
 
 ```r
-source('vibration/vibration.R')
-source('vibration/plot_vibration.R')
+# Install from GitHub
+devtools::install_github("chiragjp/voe")
+```
 
-## load NHANES data
-load('data/nhanes9904_VoE.Rdata')
+## Example: Is serum cadmium associated with mortality?
 
-## subset to variables of interest
-dat <- mainTab[, c('MORTSTAT', 'WTMEC4YR', 'PERMTH_EXM', 'SES_LEVEL', 'RIDAGEYR',
-                    'male', 'area', 'LBXBCD', 'current_past_smoking', 'any_cad',
-                    'any_family_cad', 'any_cancer_self_report', 'bmi', 'any_ht',
-                    'any_diabetes', 'education', 'RIDRETH1', 'physical_activity',
-                    'drink_five_per_day', 'LBXTC')]
-dat <- subset(dat, !is.na(WTMEC4YR))
+The association between serum cadmium and mortality depends heavily on which
+confounders you adjust for. VoE quantifies this instability by fitting every
+possible combination of adjustors and summarizing the spread in effect sizes
+and p-values.
+
+```r
+library(voe)
+library(survival)
+
+## 1. Load NHANES 1999-2004 mortality data ---------------------------------
+load("data/nhanes9904_VoE.Rdata")
+
+dat <- mainTab[, c("MORTSTAT", "WTMEC4YR", "PERMTH_EXM", "SES_LEVEL",
+                    "RIDAGEYR", "male", "area", "LBXBCD",
+                    "current_past_smoking", "any_cad", "any_ht",
+                    "any_diabetes", "education", "RIDRETH1")]
 dat <- dat[complete.cases(dat), ]
 
-## define adjustment covariates
-covariates <- ~ as.factor(SES_LEVEL) + as.factor(education) + as.factor(RIDRETH1) +
-  as.factor(bmi) + any_cad + any_family_cad + any_diabetes + any_cancer_self_report +
-  current_past_smoking + drink_five_per_day + physical_activity + LBXTC + any_ht
+## 2. Define the base model and candidate adjustors ------------------------
+##    The base model always includes age, sex, and the exposure (cadmium).
+##    The 7 candidate adjustors will be toggled on/off in every combination.
+basemodel <- Surv(PERMTH_EXM, MORTSTAT) ~ scale(I(log(LBXBCD))) +
+  RIDAGEYR + male + cluster(area)
 
-## base model: serum cadmium ~ time to death, adjusted for age + sex
-basemodel <- Surv(PERMTH_EXM, MORTSTAT) ~ scale(I(log(LBXBCD + .1))) + RIDAGEYR + male + cluster(area)
+adjustors <- ~ factor(current_past_smoking) + factor(SES_LEVEL) +
+  any_cad + any_ht + any_diabetes + factor(education) + factor(RIDRETH1)
 
-## exhaustive VoE (all 2^13 - 1 = 8,191 adjustment subsets)
-vib <- conductVibration(basemodel, dat, covariates, family = 'cox', weights = dat$WTMEC4YR)
+## 3. Run the vibration ----------------------------------------------------
+##    With 7 adjustors there are 2^7 - 1 = 127 models — runs in seconds.
+vib <- conductVibration(basemodel, dat, adjustors,
+                         family = "cox", weights = dat$WTMEC4YR)
 
-## sampling-based VoE (faster, with optional parallelization)
-vib <- conductVibrationSample(basemodel, dat, covariates, family = 'cox',
-                               n_models = 1000, n_cores = 4, weights = dat$WTMEC4YR)
+## 4. Summarize ------------------------------------------------------------
+##    RHR (relative hazard ratio) and RP (relative p-value) capture how
+##    much the estimate and significance shift across model specifications.
+summ <- summary_vibration(vib$vibFrame, vib$bicFrame)
+summ$summary
+#>       HR_01    HR_50    HR_99  pvalue_01  pvalue_50  pvalue_99   rHR  rPvalue
+#>  1   1.03     1.12     1.18   2.8e-07    0.0003     0.19       1.15  5.83
 
-## volcano plots
-plot_vibration_cox(vib)
-plot_vibration_cox(vib, type = 'contour', alpha = 0.3)
-plot_vibration_cox(vib, type = 'contour', alpha = 0.3, adjustment_num = 1)
+## 5. Visualize ------------------------------------------------------------
+##    Volcano plot: each point is one model specification.
+##    Red line traces the median estimate at each k (number of adjustors).
+plot_vibration_cox(vib, type = "contour", alpha = 0.3)
+
+##    Color by whether smoking is in the model (adjustor #1):
+plot_vibration_cox(vib, type = "contour", alpha = 0.3, adjustment_num = 1)
 ```
 
-See [`vibration/vibration_start.R`](vibration/vibration_start.R) for a complete working example.
+For large adjustor sets, use `conductVibrationSample()` to randomly sample
+model specifications instead of exhaustive enumeration:
 
-## Repository Structure
-
-```
-vibration/                # Core source code
-  vibration.R             # VoE computation (exhaustive + sampling)
-  plot_vibration.R        # Volcano and contour plots (ggplot2)
-  post_process.R          # Summary statistics (RHR, RP, Janus effect)
-  vibration_start.R       # Quick-start example
-
-nhanes_vibration/         # Cluster-scale batch pipeline
-  prepareData.R           # NHANES data assembly and weighting
-  vibrationAnalysisK.R    # Per-k worker script
-  writeParamFiles.R       # Parameter file generation
-  gatherVibrationAnalysisK.R  # Aggregates batch results
-
-data/                     # NHANES dataset (nhanes9904_VoE.Rdata)
-jce_results/              # Figures and tables from the JCE primer
+```r
+## Sample 1000 of 2^13 - 1 = 8,191 possible models, using 4 cores
+vib <- conductVibrationSample(basemodel, dat, adjustors,
+                               family = "cox", n_models = 1000, n_cores = 4,
+                               weights = dat$WTMEC4YR)
 ```
 
 ## Key Functions
@@ -71,30 +79,44 @@ jce_results/              # Figures and tables from the JCE primer
 | Function | Description |
 |---|---|
 | `conductVibration()` | Exhaustive VoE: fits all 2^n - 1 covariate subsets |
-| `conductVibrationSample()` | Stochastic VoE: random sample of models, supports `mclapply` parallelization |
+| `conductVibrationSample()` | Stochastic VoE: random sample of models with `mclapply` parallelization |
 | `conductVibrationForK()` | VoE for a fixed number of adjustors k |
-| `plot_vibration_cox()` | Volcano plot (2D histogram or contour) of HR vs -log10(p) |
-| `summary.vibration()` | RHR, RP, percentiles, Janus effect detection |
+| `plot_vibration_cox()` | Volcano plot (hexbin or contour) of HR vs -log10(p) |
+| `summary_vibration()` | RHR, RP, percentiles, Janus effect detection |
+| `find_adjustment_variable()` | Flag models containing a specific adjustor |
 
 ## Supported Model Families
 
-- **Cox proportional hazards** (`family = 'cox'`) -- primary use case; supports `cluster()` for robust SEs and survey weights
-- **Linear regression** (`family = 'gaussian'`)
-- **Logistic regression** (`family = 'binomial'`)
+- **Cox proportional hazards** (`family = "cox"`) -- primary use case; supports `cluster()` for robust SEs and survey weights
+- **Linear regression** (`family = "gaussian"`)
+- **Logistic regression** (`family = "binomial"`)
 
 ## Output
 
-- **vibFrame**: coefficient matrix with estimate, SE, z-statistic, p-value, combination index, and factor level per model
+- **vibFrame**: data frame with estimate, SE, z-statistic, p-value, combination index, and factor level per model
 - **bicFrame**: BIC and effective degrees of freedom per model
 - **Volcano plots**: HR (x-axis) vs -log10(p-value) (y-axis), with median trajectory across k highlighted in red
 
+## Repository Structure
+
+```
+R/                       # Package source
+  vibration.R            # Core VoE computation (exhaustive + sampling)
+  plot_vibration.R       # Volcano and contour plots (ggplot2)
+  post_process.R         # Summary statistics (RHR, RP, Janus effect)
+man/                     # Auto-generated documentation
+
+vibration/               # Original standalone scripts
+nhanes_vibration/        # Cluster-scale batch pipeline
+data/                    # NHANES dataset (nhanes9904_VoE.Rdata)
+jce_results/             # Figures and tables from the JCE paper
+```
+
 ## Dependencies
 
-`survival`, `ggplot2`, `RColorBrewer`, `MASS`
+**Required:** `survival`, `MASS`, `rlang`
 
-## Updates
-
-**February 18, 2026** -- Added `conductVibrationSample()`, a sampling-based alternative to the exhaustive `conductVibration()`. Instead of fitting all 2^n - 1 covariate subsets, it draws a random sample of `n_models` adjustment combinations, with multi-core support via `mclapply`. On a 13-adjustor Cox model (LBXCOT/mortality, NHANES, n=5,515), 1000 models complete in ~15s on 9 cores vs ~43s single-threaded (~3x parallel speedup). Falls back to exhaustive enumeration automatically when `n_models` exceeds the total number of possible subsets.
+**Suggested:** `ggplot2` (plotting), `RColorBrewer` (color palettes), `parallel` (multi-core sampling)
 
 ## Contact
 

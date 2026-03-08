@@ -1,0 +1,13 @@
+adjustment_index,adjustment_name
+1,SES_LEVEL
+2,education
+3,RIDRETH1
+4,bmi
+5,any_cad
+6,any_family_cad
+7,any_diabetes
+8,any_cancer_self_report
+9,drink_five_per_day,
+10,physical_activity,
+11,LBXTC
+12,any_ht

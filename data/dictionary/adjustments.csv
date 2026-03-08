@@ -1,0 +1,15 @@
+adjustment_index,adjustment_name
+1,SES_LEVEL
+2,education
+3,RIDRETH1
+4,bmi
+5,any_cad
+6,any_family_cad
+7,any_diabetes
+8,any_cancer_self_report
+9,current_past_smoking
+10,drink_five_per_day,
+11,physical_activity,
+12,LBXTC
+13,any_ht
+#adjusters <- '~ as.factor(SES_LEVEL) + as.factor(education) + as.factor(RIDRETH1) + as.factor(bmi) + any_cad + any_family_cad + any_diabetes + any_cancer_self_report +  current_past_smoking  + drink_five_per_day + physical_activity  + LBXTC + any_ht'
