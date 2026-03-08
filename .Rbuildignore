@@ -1,5 +1,8 @@
 ^\.Rhistory$
 ^\.claude$
+^\.github$
+^_pkgdown\.yml$
+^docs$
 ^CLAUDE\.md$
 ^LICENCE\.md$
 ^code_old$

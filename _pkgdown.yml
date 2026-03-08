@@ -1,0 +1,40 @@
+url: https://chiragjp.github.io/voe/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/chiragjp/voe
+
+reference:
+  - title: "Vibration of Effects"
+    desc: "Core VoE computation functions"
+    contents:
+      - conductVibration
+      - conductVibrationSample
+      - conductVibrationForK
+      - run_model
+
+  - title: "Summary Statistics"
+    desc: "Post-processing and summarization"
+    contents:
+      - summary_vibration
+      - summary_vibration_stratum
+      - statPerK
+      - statPerKandFactor
+      - quantilesHR
+      - quantilesPvalue
+      - quantilesEstimate
+      - getContoursForPctile
+
+  - title: "Plotting"
+    desc: "Visualization of VoE results"
+    contents:
+      - plot_vibration_cox
+      - find_adjustment_variable
